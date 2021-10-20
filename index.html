@@ -7,8 +7,9 @@
 
   <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
   <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap" rel="stylesheet">
 
-  <title>Frontend Mentor | Intro component with sign up form</title>
+  <title>Veve</title>
 
   <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
   <style>
@@ -18,10 +19,10 @@
     *{
     padding: 0;
     margin: 0;
+    font-family: 'Roboto Condensed', sans-serif;
     }
 
-    body { background-color: hsl(0, 100%, 74%);
-      background-image: url("images/bg-intro-desktop.png");
+    body { background-color: #413f41;
     color: white;
     min-width: 375px;
     width: 100%;
@@ -32,36 +33,31 @@
    justify-content: center;
    align-items: center;}
 
-.flex-block {box-sizing: border-box; width: 50%; margin-top: 10rem}
+.flex-row {display: flex; flex-wrap: wrap; flex-direction: row; justify-content: flex-start; align-items: center;}
+
 .text-box {padding-left: 8rem; padding-right: 5rem;}
 
+.buy-container {width: 95%; border-color: white; background-color: #302c2c; margin-top: 10rem; border-radius: 6px; height: 4rem;}
 
-.headertext {font-size: 3rem; font-family:'Poppins'; color: white; line-height: 3rem; margin-bottom: 1.5rem; font-weight: 900}
-.ptext {font-size: 1rem; font-family:'Poppins'; color: white;}
+.price {font-size: 1.5rem;}
+.timer {font-size: 1.2rem;}
 
-.label {background-color: hsl(248, 32%, 49%); color: white; font-family:'Poppins'; border-radius: 15px; width: 75%;  -webkit-box-shadow: 0px 10px #000000;
-   -moz-box-shadow: 0px 8px rgba(0, 0, 0, 0.15);
-        box-shadow: 0px 8px rgba(0, 0, 0, 0.15);
-       margin-bottom: 1rem; padding-top: 1rem; padding-bottom: 1rem; text-align: center;}
+.gem {
+  margin-right: 1rem;
+  width: 1.5rem;
+  margin-left: 1rem;
+}
 
-.form-background {background-color: white; text-align: center; border-radius: 15px; width: 75%; padding-top: 1.5rem; padding-bottom: 2rem; -webkit-box-shadow: 0px 10px #000000;
-   -moz-box-shadow: 0px 8px rgba(0, 0, 0, 0.15);
-        box-shadow: 0px 8px rgba(0, 0, 0, 0.15);}
-.form-input {width: 90%; border-radius: 5px; padding-left: 2rem; margin-top: 1rem; height: 3.5rem; border: 1px solid hsl(246, 25%, 77%); font-family:'Poppins'; font-size: 1.2rem; box-sizing: border-box;}
-.form-input:focus {outline: none !important; border: 1px solid black;}
+.cart {
+  margin-right: 1rem;
+  width: 1.5rem;
+}
 
-.form-button {background-color: hsl(154, 59%, 51%); color: white; font-family:'Poppins'; width: 90%; border:none; border-radius: 10px; height: 3rem; font-size: 16px; margin-top: 1.5rem; margin-bottom: 1.5rem}
-.form-button:hover {background-color: hsl(154, 39%, 51%);}
-
-.terms-text{color: hsl(246, 25%, 77%); font-family:'Poppins'; font-size: 0.8rem;}
-.link {color:red; text-decoration: none;}
-.link:hover {text-decoration: underline;}
 
 
 @media screen and (max-width: 900px) {
 .container {display: flex;
-        flex-flow: column;
-        padding: 2rem 3rem 1rem 3rem;}
+        flex-flow: column;}
 
 .flex-block {margin-top: 0rem; width: 100%}
 
@@ -80,28 +76,46 @@
 
   <div class="container">
 
-  <div class="flex-block text-box">
-    <p class="headertext"><b>Learn to code by watching others</b></p>
-    <p class="ptext">See how experienced developers solve problems in real-time. Watching scripted tutorials is great, but understanding how developers think is invaluable.</p>
-  </div>
 
-  <div class="flex-block">
-    <div class="label"><p><b>Try it free 7</b> days then $20/mo. thereafter</p></div>
-    <div class="form-background">
-    <form name="myForm" onsubmit="return validateForm()" method="post">
-      <input class="form-input" type="text" placeholder="First Name" name="fname" required></input>
-      <input class="form-input" placeholder="Last Name" required></input>
-      <input class="form-input" placeholder="Email Address" required></input>
-      <input class="form-input" placeholder="Password" type="password" required></input>
-      <button type="submit" value="Submit" class="form-button">CLAIM YOUR FREE TRIAL</button>
-    </form>
-    <p class="terms-text">By clicking the button you agree to our <a class="link" href="google.com">Terms and Services</a></p>
+    <div class="flex-row buy-container">
+    <div class="flex-row" style="width: 55%;">
+      <img src="gem.png" class="gem"></img>
+      <h1 class="price">6.99</h1>
     </div>
-  </div>
+
+    <div class="flex-row" style="width: 45%; cursor: pointer;" onclick="buynowbutton()">
+      <img src="cart.png" class="cart"></img>
+      <h1 class="timer" id="timer"> 0m 10s</h1>
+    </div>
+      
+    </div>
+ 
+
+ 
 
   </div>
 
   </main>
+
+  <script>
+  var timeleft = 1;
+  var current = 0;
+  var downloadTimer = setInterval(function(){
+  if(timeleft <= 0){
+    clearInterval(downloadTimer);
+  }
+  current = 10 - timeleft;
+  document.getElementById("timer").innerHTML = "Drops 0m "+current+"s";
+  timeleft += 1;
+
+  if (timeleft >= 12) document.getElementById("timer").innerHTML = "BUY NOW";
+}, 1000);
+
+  function buynowbutton() {
+    console.log("buynow");
+    if (document.getElementById("timer").innerHTML == "BUY NOW") alert("BUY NOW");
+  }
+  </script>
 
   <footer>
    <!-- <p class="attribution">
