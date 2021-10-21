@@ -1,20 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!--<meta http-equiv="refresh" content="3">-->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
 
-  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
   <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
   <title>Veve</title>
 
-  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
   <style>
-    .attribution { font-size: 11px; text-align: center; }
-    .attribution a { color: hsl(228, 45%, 44%); }
 
     *{
     padding: 0;
@@ -37,7 +33,13 @@
 
 .text-box {padding-left: 8rem; padding-right: 5rem;}
 
-.buy-container {width: 95%; border-color: white; background-color: #302c2c; margin-top: 10rem; border-radius: 6px; height: 4rem;}
+.buy-container {width: 95%; border-color: white; background-color: #302c2c; margin-top: 10rem; height: 4rem;}
+
+.left-div {border-radius: 7px 0px 0px 7px; border-right: 1px solid #413f41; width: 46%;}
+
+.right-div {border-radius: 0px 7px 7px 0px; border-left: 1px solid black; width: 46%; cursor: pointer;}
+
+.right-div:active {opacity: 50%; -webkit-tap-highlight-color:  rgba(255, 255, 255, 0); }
 
 .price {font-size: 1.5rem;}
 .timer {font-size: 1.2rem;}
@@ -51,23 +53,44 @@
 .cart {
   margin-right: 1rem;
   width: 1.5rem;
+  margin-left: 1rem;
 }
 
 
 
-@media screen and (max-width: 900px) {
-.container {display: flex;
-        flex-flow: column;}
+#confirm {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-items: center;
+            background-color: white;
+            width: 300px;
+            height: 100px;
+            color: black;
+            text-align: center;
+            border-radius: 8px 8px 0px 0px;
+            margin-top: 4rem;
+         }
 
-.flex-block {margin-top: 0rem; width: 100%}
+        .coming-soon {background-color: red; width: 100%; color: white; border-radius: 8px 8px 0px 0px; padding-top: .6rem; padding-bottom: .6rem;}
 
-.text-box {padding-left: 2rem; padding-right: 2rem; margin-bottom: 2rem; text-align: center;}
+        .not-available {padding-top: 1.2rem; padding-bottom: 1.2rem;}
 
-.form-background {width: 100%}
-.label {width: 100%}
+        .okaybutton {background-color: lightgray; width: 100%; color: black; border-radius: 0px 0px 8px 8px; padding-top: .8rem; padding-bottom: .8rem;}
 
 
-}
+
+         #confirm button {
+            background-color: #FFFFFF;
+            display: inline-block;
+            border: 4px solid #aaa;
+            padding: 5px;
+            text-align: center;
+            width: 60px;
+            cursor: pointer;
+         }
+         
+
 </style>
 </head>
 
@@ -77,18 +100,24 @@
   <div class="container">
 
 
-    <div class="flex-row buy-container">
-    <div class="flex-row" style="width: 55%;">
+    
+    <div class="flex-row buy-container left-div">
       <img src="gem.png" class="gem"></img>
       <h1 class="price">6.99</h1>
     </div>
 
-    <div class="flex-row" style="width: 45%; cursor: pointer;" onclick="buynowbutton()">
+    <div class="flex-row buy-container right-div" id="rightdiv" tabindex="1" onclick="buynowbutton()">
       <img src="cart.png" class="cart"></img>
-      <h1 class="timer" id="timer"> 0m 10s</h1>
+      <h1 class="timer" id="timer">Drops 0m 10s</h1>
     </div>
+
+    <div id="confirm">
+      <div class="message coming-soon">Coming Soon</div>
+      <div class="message not-available">This collectible is not yet available to purchase</div>
+      <div class="yes okaybutton">Okay</div>
+   </div>
       
-    </div>
+   
  
 
  
@@ -100,6 +129,7 @@
   <script>
   var timeleft = 1;
   var current = 0;
+
   var downloadTimer = setInterval(function(){
   if(timeleft <= 0){
     clearInterval(downloadTimer);
@@ -108,20 +138,36 @@
   document.getElementById("timer").innerHTML = "Drops 0m "+current+"s";
   timeleft += 1;
 
-  if (timeleft >= 12) document.getElementById("timer").innerHTML = "BUY NOW";
+  if (timeleft >= 12) {
+    
+  document.getElementById("timer").innerHTML = "BUY NOW";
+  start = Date.now();
+  console.log("start");
+  clearInterval(downloadTimer);
+
+}
 }, 1000);
 
+function functionAlert(msg, myYes) {
+            var confirmBox = $("#confirm");
+            confirmBox.find(".message").text(msg);
+            confirmBox.find(".yes").unbind().click(function() {
+               confirmBox.hide();
+            });
+            confirmBox.find(".yes").click(myYes);
+            confirmBox.show();
+         }
+
   function buynowbutton() {
-    console.log("buynow");
-    if (document.getElementById("timer").innerHTML == "BUY NOW") alert("BUY NOW");
+    if (document.getElementById("timer").innerHTML == "BUY NOW") alert("Buy Now");
+    else functionAlert();
   }
+
+
   </script>
 
   <footer>
-   <!-- <p class="attribution">
-      Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>.
-      Coded by <a href="#">Your Name Here</a>.
-    </p>-->
+
   </footer>
 </body>
 </html>
